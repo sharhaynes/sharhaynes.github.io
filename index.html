@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>T'Shara Haynes — The Portfolio</title>
+
+  <!--
+  ============================================================
+  FONTS
+  ------------------------------------------------------------
+  We import two fonts from Google Fonts:
+    1. "Space Grotesk"  — used for nav labels, tags, mono-style text
+    2. "Syne"           — used for the big display headings (like the
+                          giant "Harold Keith" on the reference site)
+  To swap fonts: change the URL below AND update the CSS variables
+  in the :root block further down.
+  ============================================================
+  -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+
+  <style>
+
+    /* ============================================================
+       CSS CUSTOM PROPERTIES (Variables)
+       ------------------------------------------------------------
+       These are your "design tokens" — change a value here and it
+       updates EVERYWHERE on the page that uses that variable.
+       ============================================================ */
+    :root {
+      /* --- Colors --- */
+      --bg:          #C2CFB2;   /* main dark background — almost black */
+      --bg-2:        #9BB082;   /* slightly lighter dark, used for cards */
+      --bg-3:        #003B36;   /* hover states, bordered areas */
+      --text:        #1a2e1a;   /* dark green instead of near-white */
+      --text-muted:  #4a5e4a;   /* muted dark green instead of dark grey */
+      --text-dim:    #5a7a5a;   /* mid green instead of light grey */
+      --border:      #a0b890;   /* soft green border instead of near-black */
+      --green:       #003B36;   /* use your dark teal for the available dot */
+
+      /* --- Sidebar width — change this one number to resize the nav --- */
+      --sidebar-w:   220px;
+
+      /* --- Typography --- */
+      --font-body:   'Space Grotesk', sans-serif;
+      --font-display:'Syne', sans-serif;
+    }
+
+    /* ============================================================
+       RESET & BASE
+       ------------------------------------------------------------
+       Zero out browser defaults so we start from a clean slate.
+       ============================================================ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth; /* smooth scrolling when clicking nav links */
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+      /* Layout: sidebar on left, content on right, side by side */
+      display: flex;
+    }
+
+    /* Remove default list styling */
+    ul { list-style: none; }
+    a  { text-decoration: none; color: inherit; }
+
+    /* ============================================================
+       SCROLLBAR — custom dark scrollbar for the main content area
+       ============================================================ */
+    ::-webkit-scrollbar       { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+
+    /* ============================================================
+       SIDEBAR (LEFT VERTICAL NAVIGATION)
+       ------------------------------------------------------------
+       This is the fixed vertical panel on the left side that stays
+       in place while the right content scrolls. It mirrors the
+       devfolio reference exactly: name at top, nav links with
+       underscore prefix, social/cta links at bottom.
+       ============================================================ */
+    .sidebar {
+      width: var(--sidebar-w);          /* fixed width from variable above */
+      min-height: 100vh;
+      position: fixed;                  /* sticks to the left, doesn't scroll */
+      top: 0;
+      left: 0;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;           /* stack children vertically */
+      padding: 40px 28px;
+      z-index: 100;                     /* stay above all other content */
+      background: var(--bg);            /* same as page bg so it blends */
+    }
+
+    /* --- Name / Logo at top of sidebar --- */
+    .sidebar-name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text);
+      letter-spacing: 0.02em;
+      margin-bottom: 60px;             /* gap between name and nav links */
+      display: block;
+    }
+
+    /* --- Navigation links list --- */
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;                        /* small gap between each nav item */
+      flex: 1;                         /* pushes bottom section down */
+    }
+
+    /* --- Each individual nav link --- */
+    .sidebar-nav a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);        /* dim by default */
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Hover state: brightens the link */
+    .sidebar-nav a:hover {
+      color: var(--text);
+      background: var(--bg-3);
+    }
+
+    /* Active/current page link: full white */
+    .sidebar-nav a.active {
+      color: var(--text);
+    }
+
+    /* The underscore prefix (like "_hello") — styled as a subtle accent */
+    .sidebar-nav a .prefix {
+      color: var(--text-muted);        /* stays dim even when parent is active */
+      font-weight: 300;
+    }
+
+    /* --- Bottom section of sidebar: availability + cta --- */
+    .sidebar-bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Small "available for work" status badge */
+    .availability {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* The little green pulsing dot */
+    .availability .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      /* CSS animation: pulse glow to draw attention */
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4); }
+      50%       { box-shadow: 0 0 0 6px rgba(74, 222, 128, 0); }
+    }
+
+    /* "Book a call" button in sidebar */
+    .sidebar-cta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--bg);                /* dark text on light button */
+      background: var(--text);
+      padding: 10px 14px;
+      border-radius: 8px;
+      transition: opacity 0.2s;
+      letter-spacing: 0.02em;
+    }
+
+    .sidebar-cta:hover { opacity: 0.85; }
+
+    /* Emoji calendar icon inside the CTA button */
+    .sidebar-cta .icon { font-size: 14px; }
+
+
+    /* ============================================================
+       MAIN CONTENT AREA
+       ------------------------------------------------------------
+       Everything to the RIGHT of the sidebar. We push it over by
+       exactly the sidebar width so it doesn't overlap.
+       ============================================================ */
+    .main {
+      margin-left: var(--sidebar-w);   /* offset = sidebar width */
+      flex: 1;                         /* take up all remaining space */
+      overflow-y: auto;                /* scroll independently from sidebar */
+    }
+
+
+    /* ============================================================
+       SECTION BASE STYLES
+       ------------------------------------------------------------
+       All sections share this padding. Each section is full-viewport
+       height so you get a "page per section" feel.
+       ============================================================ */
+    section {
+      min-height: 100vh;
+      padding: 80px 70px;
+      border-bottom: 1px solid var(--border);  /* separator between sections */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+
+    /* ============================================================
+       HERO SECTION  (#hero)
+       ------------------------------------------------------------
+       Big name, role subtitle, short bio. This mirrors the
+       "Hello, I am / Harold Keith" layout from the reference.
+       ============================================================ */
+    #hero {}
+
+    /* Small "Hello, I am" label above the name */
+    .hero-greeting {
+      font-size: 14px;
+      color: var(--text-muted);
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+    }
+
+    /* The BIG name — this is the headline everyone sees first.
+       Uses clamp() so it scales between mobile and desktop. */
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 8vw, 100px);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 32px;
+    }
+
+    /* Role tag — sits below the name, looks like a code/terminal tag */
+    .hero-role {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-dim);
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 100px;            /* pill shape */
+      margin-bottom: 32px;
+      letter-spacing: 0.04em;
+    }
+
+    /* The small colored circle before the role text */
+    .hero-role .role-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--text-dim);
+    }
+
+    /* Paragraph bio text below the role */
+    .hero-bio {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 460px;                /* keep it readable — don't go full width */
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+
+    /* Row of CTA buttons */
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* Primary button (filled) */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--text);
+      color: var(--bg);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: 8px;
+      transition: opacity 0.2s;
+      letter-spacing: 0.02em;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+
+    /* Secondary button (outlined) */
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--text-dim);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s, color 0.2s;
+      letter-spacing: 0.02em;
+    }
+    .btn-secondary:hover {
+      border-color: var(--text-dim);
+      color: var(--text);
+    }
+
+    /* ── Stats row under the buttons ── */
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      margin-top: 64px;
+      padding-top: 48px;
+      border-top: 1px solid var(--border);
+    }
+
+    .stat-item {}
+
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+
+    /* ============================================================
+       ABOUT SECTION  (#about)
+       ============================================================ */
+    #about {}
+
+    /* Section header pattern — used in About, Projects, Contact */
+    .section-header {
+      margin-bottom: 56px;
+    }
+
+    /* Small label above the section title (like "_about") */
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    /* Section title — big but smaller than hero name */
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      color: var(--text);
+    }
+
+    /* Two-column layout for About: text left, skills right */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    /* Left column: bio paragraphs */
+    .about-text p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    /* Highlighted text inside bio */
+    .about-text strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* Right column: skills */
+    .about-skills {}
+
+    .skills-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    /* Grid of skill tags */
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* Individual skill pill */
+    .skill-tag {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-dim);
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 100px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .skill-tag:hover {
+      color: var(--text);
+      border-color: var(--text-muted);
+    }
+
+    /* ============================================================
+   EXPERIENCE SECTION
+   ============================================================ */
+.experience-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.exp-card {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 28px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.exp-card:hover {
+  border-color: var(--text-muted);
+  transform: translateX(6px);
+}
+
+.exp-logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+  
+}
+
+.exp-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.exp-info {
+  flex: 1;
+}
+
+.exp-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.exp-company {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.exp-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.exp-date {
+  font-size: 12px;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.exp-location {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 768px) {
+  .exp-card { flex-wrap: wrap; gap: 16px; }
+  .exp-meta { align-items: flex-start; }
+}
+
+
+    /* ============================================================
+       PROJECTS SECTION  (#projects)
+       ------------------------------------------------------------
+       Vertical list of project cards — each card spans full width
+       and shows project name, date, and thumbnail (like the
+       scrolling ticker on the reference site, but as a clean list).
+       ============================================================ */
+    #projects {}
+
+    /* Stacked list of project cards */
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      /* No gap — borders between cards act as separators */
+    }
+
+    /* ── Individual project card ── */
+    .project-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: padding-left 0.25s ease;
+      position: relative;
+      gap: 24px;
+    }
+
+    /* On hover: indent the card (subtle slide effect) */
+    .project-card:hover {
+      padding-left: 12px;
+    }
+
+    /* Left side of card: number + title + tags */
+    .project-left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex: 1;
+    }
+
+    /* Project number e.g. "01", "02" */
+    .project-num {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      min-width: 28px;
+    }
+
+    /* Project title — gets bigger on hover */
+    .project-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      transition: color 0.2s;
+    }
+
+    /* The underscore prefix on project names */
+    .project-title .prefix {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    /* Small tag chips inside project card */
+    .project-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .project-tag {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      padding: 3px 10px;
+      border-radius: 100px;
+      letter-spacing: 0.04em;
+    }
+
+    /* Right side of card: date + thumbnail */
+    .project-right {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-shrink: 0;
+    }
+
+    /* Date label e.g. "Oct 2023 – Jan 2024" */
+    .project-date {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    /* Project thumbnail image box */
+    .project-thumb {
+      width: 80px;
+      height: 52px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: var(--bg-3);         /* fallback color if no image */
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: transform 0.25s;
+      flex-shrink: 0;
+    }
+
+    /* Thumbnail image inside the box */
+    .project-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.7;
+      transition: opacity 0.25s;
+    }
+
+    /* On hover: thumbnail pops and brightens */
+    .project-card:hover .project-thumb img {
+      opacity: 1;
+    }
+
+    .project-card:hover .project-thumb {
+      transform: scale(1.05);
+    }
+
+    /* Arrow icon on the right that appears on hover */
+    .project-arrow {
+      font-size: 16px;
+      color: var(--text-muted);
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: opacity 0.25s, transform 0.25s;
+    }
+
+    .project-card:hover .project-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+
+    /* ============================================================
+       CONTACT SECTION  (#contact)
+       ============================================================ */
+    #contact {
+      border-bottom: none;             /* last section — no border at bottom */
+    }
+
+    /* Two-column: left is big text CTA, right is form */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .contact-headline {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 4.5vw, 52px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .contact-sub {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 36px;
+      max-width: 340px;
+    }
+
+    /* Social / contact links list */
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+      transition: color 0.2s, padding-left 0.2s;
+    }
+
+    .contact-link:hover {
+      color: var(--text);
+      padding-left: 8px;
+    }
+
+    .contact-link .link-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Arrow on contact links */
+    .contact-link .link-arrow {
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .contact-link:hover .link-arrow { opacity: 1; }
+
+    /* ── Contact Form ── */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* Form label */
+    .form-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Input & textarea shared styles */
+    .form-input,
+    .form-textarea {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    /* Focus glow effect on inputs */
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--text-muted);
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: var(--text-muted);
+      opacity: 0.5;
+    }
+
+    .form-textarea {
+      resize: vertical;               /* allow vertical resizing only */
+      min-height: 120px;
+    }
+
+    /* Form submit button */
+    .form-submit {
+      align-self: flex-start;
+      background: var(--text);
+      color: var(--bg);
+      border: none;
+      border-radius: 8px;
+      padding: 12px 28px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-submit:hover { opacity: 0.85; }
+
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer {
+      padding: 24px 70px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    .footer a {
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+
+    .footer a:hover { color: var(--text); }
+
+
+    /* ============================================================
+       SCROLL-TRIGGERED FADE-IN ANIMATION
+       ------------------------------------------------------------
+       Elements with class .fade-in start invisible and slide up.
+       JavaScript IntersectionObserver adds .visible when they
+       enter the viewport, triggering the CSS transition.
+       ============================================================ */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Staggered delays — children animate one after another */
+    .fade-in:nth-child(2) { transition-delay: 0.08s; }
+    .fade-in:nth-child(3) { transition-delay: 0.16s; }
+    .fade-in:nth-child(4) { transition-delay: 0.24s; }
+    .fade-in:nth-child(5) { transition-delay: 0.32s; }
+
+
+    /* ============================================================
+       RESPONSIVE — MOBILE  (max-width: 768px)
+       ------------------------------------------------------------
+       On small screens: sidebar becomes a top bar, columns collapse
+       to single column.
+       ============================================================ */
+    @media (max-width: 768px) {
+      body { flex-direction: column; }
+
+      /* Sidebar becomes a horizontal top bar */
+      .sidebar {
+        position: relative;
+        width: 100%;
+        min-height: auto;
+        flex-direction: row;
+        align-items: center;
+        padding: 16px 20px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .sidebar-name    { margin-bottom: 0; }
+      .sidebar-nav     { flex-direction: row; flex: unset; gap: 4px; }
+      .sidebar-bottom  { display: none; }       /* hide cta on mobile */
+
+      /* Main content: no left margin */
+      .main { margin-left: 0; }
+
+      /* Sections: less padding on mobile */
+      section { padding: 48px 24px; }
+
+      /* Stack grids to single column */
+      .about-grid,
+      .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+
+      /* Footer */
+      .footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px; }
+
+      /* Project card: wrap on mobile */
+      .project-card   { flex-wrap: wrap; }
+      .project-right  { width: 100%; justify-content: space-between; }
+    }
+
+  </style>
+</head>
+<body>
+
+
+  <!-- ============================================================
+       SIDEBAR (LEFT NAVIGATION)
+       ------------------------------------------------------------
+       Fixed to the left edge. Contains:
+         - Your name (acts as a "logo" / home link)
+         - Nav links with _underscore prefix style
+         - Availability status + book-a-call CTA at bottom
+       ============================================================ -->
+  <aside class="sidebar">
+
+    <!-- Your name at the top — clicking goes back to hero -->
+    <!-- TO CUSTOMIZE: Change "Jane Doe" to your actual name -->
+    <a href="#hero" class="sidebar-name">T'Shara Haynes</a>
+
+    <!-- Navigation links
+         Each link has a .prefix span for the underscore style.
+         The "active" class highlights the current section —
+         JavaScript updates this on scroll (see script at bottom). -->
+    <nav class="sidebar-nav">
+      <a href="#hero"     class="active"><span class="prefix">_</span>hello</a>
+      <a href="#about"   ><span class="prefix">_</span>about</a>
+      <a href = "#experience"><span class="prefix">_</span>experience</a>
+      <a href="#projects"><span class="prefix">_</span>projects</a>
+      <a href="#contact" ><span class="prefix">_</span>contact_me</a>
+    </nav>
+
+    </div>
+  </aside>
+
+
+  <!-- ============================================================
+       MAIN CONTENT
+       Everything to the right of the sidebar.
+       ============================================================ -->
+  <main class="main">
+
+
+    <!-- ==========================================================
+         HERO SECTION
+         ----------------------------------------------------------
+         First thing visitors see. Big name, role, short bio,
+         action buttons, and stat numbers.
+         ========================================================== -->
+    <section id="hero">
+
+      <!-- "Hello, I am" greeting — small text above the name -->
+      <p class="hero-greeting fade-in">Hello! I am</p>
+
+      <!-- BIG NAME — TO CUSTOMIZE: Replace "Jane Doe" with your name -->
+      <h1 class="hero-name fade-in">T'Shara Haynes</h1>
+
+      <!-- Role pill — TO CUSTOMIZE: Change to your job title/description -->
+      <div class="hero-role fade-in">
+        <span class="role-dot"></span>
+        Software Engineer | ML Research Enthusiast | Game developer
+      </div>
+
+      <!-- Short bio paragraph
+           TO CUSTOMIZE: Write 1-2 sentences describing what you do
+           and what makes you unique. Keep it concise. -->
+      <p class="hero-bio fade-in">
+I'm a software engineer who enjoys building thoughtful digital experiences backed by strong technical systems.
+I’m particularly interested in machine learning research, game development, payment technologies, 
+and designing tools to further the Caribbean's technological and sustainable development.
+      </p>
+
+      <!-- Call-to-action buttons -->
+      <div class="hero-actions fade-in">
+        <!-- Primary: links to your projects section -->
+        <a href="#projects" class="btn-primary">View Projects →</a>
+        <!-- Secondary: opens your resume PDF
+             TO CUSTOMIZE: Replace # with the path to your resume file -->
+        <a href="T'Shara Haynes_CV_Updated.pdf" class="btn-secondary" download>Download Résumé</a>
+      </div>
+
+      <!-- Stats row — TO CUSTOMIZE: Update the numbers to match your
+           real experience. Remove a stat item if you don't need it. -->
+      <div class="hero-stats">
+        <div class="stat-item fade-in">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Years Experience</div>
+        </div>
+        <div class="stat-item fade-in">
+          <div class="stat-num">10+</div>
+          <div class="stat-label">Projects Built</div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- ==========================================================
+         ABOUT SECTION
+         ----------------------------------------------------------
+         Two columns: bio text on the left, skill tags on the right.
+         ========================================================== -->
+    <section id="about">
+
+      <!-- Section header -->
+      <div class="section-header fade-in">
+        <p class="section-label">_about</p>
+        <!-- TO CUSTOMIZE: Change subtitle as you like -->
+        <h2 class="section-title">A bit about me.</h2>
+      </div>
+
+      <!-- Two-column grid -->
+      <div class="about-grid">
+
+        <div class="about-text fade-in">
+          <p>
+            I'm a <strong>budding developer</strong> currently based in Barbados, with
+            3+ years of experience building web and desktop applications. My goal has always been focused on 
+            furthering Caribbean sustainable development with technology.
+          <p>
+            My work blends <strong> full-stack and game development, along with machine learning execution 
+            and research.</strong> Currently I am focused on utilising machine learning to aid <strong>environmental and cultural research </strong>. 
+            Overall, I’m interested in creating technology that is both practical and impactful.
+          </p>
+          <p>
+            Outside of work I'm into pixel art, film photography, and retro videogames
+          </p>
+        </div>
+
+        <div class="about-skills fade-in">
+          <p class="skills-label">Technologies I work with</p>
+          <div class="skills-list">
+            <span class="skill-tag">React</span>
+            <span class="skill-tag">Node.js</span>
+            <span class="skill-tag">MySQL</span>
+            <span class="skill-tag">MongoDB</span>
+            <span class="skill-tag">Canva</span>
+            <span class="skill-tag">Figma</span>
+            <span class="skill-tag">Gimp</span>
+            <span class="skill-tag">Aseprite</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">Java</span>
+            <span class="skill-tag">HTML/CSS</span>
+            <span class="skill-tag">PHP</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================
+     EXPERIENCE SECTION
+     ========================================================== -->
+<section id="experience">
+
+  <div class="section-header fade-in">
+    <p class="section-label">_experience</p>
+    <h2 class="section-title">My Experience</h2>
+  </div>
+
+  <div class="experience-list">
+
+    <div class="exp-card fade-in">
+      <div class="exp-logo">
+        <img src="cbb_logo.webp" alt="Central Bank of Barbados"/>
+</div>
+      <div class="exp-info">
+        <div class="exp-title">Governor's Office Intern</div>
+        <div class="exp-company">Central Bank of Barbados</div>
+      </div>
+      <div class="exp-meta">
+        <span class="exp-date">Jun 2025 – Aug 2025</span>
+        <span class="exp-location">Bridgetown, Barbados</span>
+      </div>
+    </div>
+
+    <div class="exp-card fade-in">
+      <div class="exp-logo">
+        <img src="headstarter.png" alt="Central Bank of Barbados"/>
+</div>
+      <div class="exp-info">
+        <div class="exp-title">Machine Learning Fellow</div>
+        <div class="exp-company">Headstarter AI</div>
+      </div>
+      <div class="exp-meta">
+        <span class="exp-date">Jul 2024 – Sep 2024</span>
+        <span class="exp-location">Remote</span>
+      </div>
+    </div>
+
+    <div class="exp-card fade-in">
+      <div class="exp-logo">
+        <img src="pellucid it_logo.webp" alt="Central Bank of Barbados"/>
+</div>
+      <div class="exp-info">
+        <div class="exp-title">Project Assistant</div>
+        <div class="exp-company">Pellucid IT Inc.</div>
+      </div>
+      <div class="exp-meta">
+        <span class="exp-date">Oct 2024 – May 2025</span>
+        <span class="exp-location">Remote</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+    <!-- ==========================================================
+         PROJECTS SECTION
+         ----------------------------------------------------------
+         Vertical list of projects — matches the reference site's
+         project list style with name, date, and thumbnail.
+
+         TO CUSTOMIZE: Copy/paste a .project-card block to add more
+         projects. Update the title, date, tags, and image src.
+
+         For images: either use a real <img> tag pointing to your
+         screenshot, or leave the div as-is for a placeholder.
+         ========================================================== -->
+    <section id="projects">
+
+      <!-- Section header -->
+      <div class="section-header fade-in">
+        <p class="section-label">_projects</p>
+        <h2 class="section-title">Selected work.</h2>
+      </div>
+
+      <div class="projects-list">
+
+  <!-- ── PROJECT 1 ── -->
+  <a href="https://github.com/sharhaynes/Fraud-Detection" class="project-card fade-in" target="_blank">
+    <div class="project-left">
+      <span class="project-num">01</span>
+      <div>
+        <div class="project-title"><span class="prefix">_</span>fraud_detection</div>
+        <div class="project-tags">
+          <span class="project-tag">Python</span>
+          <span class="project-tag">Machine Learning</span>
+          <span class="project-tag">scikit-learn</span>
+        </div>
+      </div>
+    </div>
+    <div class="project-right">
+      <span class="project-date">2025</span>
+      <div class="project-thumb">
+        <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=200&q=60" alt="Fraud Detection"/>
+      </div>
+      <span class="project-arrow">↗</span>
+    </div>
+  </a>
+
+  <!-- ── PROJECT 2 ── -->
+  <a href="https://github.com/sharhaynes/pwd-manager" class="project-card fade-in" target="_blank">
+    <div class="project-left">
+      <span class="project-num">02</span>
+      <div>
+        <div class="project-title"><span class="prefix">_</span>password_manager</div>
+        <div class="project-tags">
+          <span class="project-tag">Python</span>
+          <span class="project-tag">Encryption</span>
+          <span class="project-tag">Security</span>
+        </div>
+      </div>
+    </div>
+    <div class="project-right">
+      <span class="project-date">2024</span>
+      <div class="project-thumb">
+        <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=200&q=60" alt="Password Manager"/>
+      </div>
+      <span class="project-arrow">↗</span>
+    </div>
+  </a>
+
+  <!-- ── PROJECT 3 ── -->
+  <a href="https://github.com/sharhaynes/portfolio" class="project-card fade-in" target="_blank">
+    <div class="project-left">
+      <span class="project-num">03</span>
+      <div>
+        <div class="project-title"><span class="prefix">_</span>portfolio</div>
+        <div class="project-tags">
+          <span class="project-tag">HTML</span>
+          <span class="project-tag">CSS</span>
+          <span class="project-tag">JavaScript</span>
+        </div>
+      </div>
+    </div>
+    <div class="project-right">
+      <span class="project-date">2025</span>
+      <div class="project-thumb">
+        <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=200&q=60" alt="Portfolio"/>
+      </div>
+      <span class="project-arrow">↗</span>
+    </div>
+  </a>
+
+</div>
+    </section>
+
+
+    <!-- ==========================================================
+         CONTACT SECTION
+         ----------------------------------------------------------
+         Left: headline + social links.
+         Right: contact form.
+         ========================================================== -->
+    <section id="contact">
+
+      <!-- Section header -->
+      <div class="section-header fade-in">
+        <p class="section-label">_contact_me</p>
+        <h2 class="section-title">Let's work together.</h2>
+      </div>
+
+      <!-- Two-column grid -->
+      <div class="contact-grid">
+
+        <!-- Left column: social / contact links
+             TO CUSTOMIZE: Update each href and the label text -->
+        <div class="fade-in">
+          <p class="contact-sub">
+            Have a project in mind or want to chat? I'm always open to
+            new opportunities and interesting collaborations.
+          </p>
+
+          <div class="contact-links">
+
+            <!-- Email link -->
+            <a href="mailto:haynestshara0@gmail.com" class="contact-link">
+              <span class="link-label">
+                <!-- Underscore prefix style for consistency with nav -->
+                <span style="color: var(--text-muted)">_</span>Email
+              </span>
+              <span class="link-arrow">↗</span>
+            </a>
+
+            <!-- LinkedIn -->
+            <a href="https://www.linkedin.com/in/tshara-haynes/" target="_blank" class="contact-link">
+              <span class="link-label">
+                <span style="color: var(--text-muted)">_</span>LinkedIn
+              </span>
+              <span class="link-arrow">↗</span>
+            </a>
+
+            <!-- GitHub -->
+            <a href="https://github.com/sharhaynes" target="_blank" class="contact-link">
+              <span class="link-label">
+                <span style="color: var(--text-muted)">_</span>GitHub
+              </span>
+              <span class="link-arrow">↗</span>
+            </a>
+
+            <!-- Twitter / X -->
+            <a href="https://www.instagram.com/shar_ja._/" target="_blank" class="contact-link">
+              <span class="link-label">
+                <span style="color: var(--text-muted)">_</span>Medium
+              </span>
+              <span class="link-arrow">↗</span>
+            </a>
+
+          </div>
+        </div>
+
+        <!-- Right column: contact form
+             TO CUSTOMIZE: Hook this up to a form service like
+             Formspree (formspree.io), Netlify Forms, or EmailJS.
+             Change the action attribute or add your JS handler. -->
+        <form class="contact-form fade-in" onsubmit="handleSubmit(event)">
+
+          <!-- Name field -->
+          <div class="form-group">
+            <label class="form-label" for="name">Your Name</label>
+            <input
+              id="name"
+              type="text"
+              class="form-input"
+              placeholder="John Smith"
+              required
+            />
+          </div>
+
+          <!-- Email field -->
+          <div class="form-group">
+            <label class="form-label" for="email">Email Address</label>
+            <input
+              id="email"
+              type="email"
+              class="form-input"
+              placeholder="john@company.com"
+              required
+            />
+          </div>
+
+          <!-- Message field -->
+          <div class="form-group">
+            <label class="form-label" for="message">Message</label>
+            <textarea
+              id="message"
+              class="form-textarea"
+              placeholder="Tell me about your project..."
+              required
+            ></textarea>
+          </div>
+
+          <!-- Submit button -->
+          <button type="submit" class="form-submit">
+            Send Message →
+          </button>
+
+        </form>
+
+      </div>
+    </section>
+
+
+    <!-- ==========================================================
+         FOOTER
+         ========================================================== -->
+    <footer class="footer">
+      <!-- TO CUSTOMIZE: Update your name and year -->
+      <span>© 2026 T'Shara Haynes. All rights reserved.</span>
+      <a href="#hero">Back to top :D</a>
+    </footer>
+
+
+  </main><!-- end .main -->
+
+
+  <!-- ============================================================
+       JAVASCRIPT
+       ------------------------------------------------------------
+       Three things happen here:
+         1. Scroll-triggered fade-in animations via IntersectionObserver
+         2. Active nav link highlighting based on scroll position
+         3. Form submit handler (placeholder — wire up to your backend)
+       ============================================================ -->
+  <script>
+
+    /* ----------------------------------------------------------
+       1. FADE-IN ON SCROLL
+       ----------------------------------------------------------
+       IntersectionObserver watches every .fade-in element.
+       When one enters the viewport (threshold: 10% visible),
+       we add the .visible class which triggers the CSS transition.
+       ---------------------------------------------------------- */
+    const fadeEls = document.querySelectorAll('.fade-in');
+
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // Once visible, stop observing — no need to re-trigger
+          fadeObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1   // trigger when 10% of the element is visible
+    });
+
+    fadeEls.forEach(el => fadeObserver.observe(el));
+
+
+    /* ----------------------------------------------------------
+       2. ACTIVE NAV LINK HIGHLIGHT
+       ----------------------------------------------------------
+       As the user scrolls, we check which section is most visible
+       in the viewport and highlight the matching nav link.
+       ---------------------------------------------------------- */
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.sidebar-nav a');
+
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Remove active from all links
+          navLinks.forEach(link => link.classList.remove('active'));
+          // Find the nav link whose href matches this section's id
+          const id = entry.target.id;
+          const activeLink = document.querySelector(`.sidebar-nav a[href="#${id}"]`);
+          if (activeLink) activeLink.classList.add('active');
+        }
+      });
+    }, {
+      // A section becomes "active" when it occupies 40% of the viewport
+      threshold: 0.4
+    });
+
+    sections.forEach(section => navObserver.observe(section));
+
+
+    /* ----------------------------------------------------------
+       3. FORM SUBMIT HANDLER
+       ----------------------------------------------------------
+       Currently just shows an alert. To actually send the message:
+         Option A (easy): Use Formspree — add action="https://formspree.io/f/YOUR_ID"
+                          to the <form> tag and remove this JS handler.
+         Option B: Replace the alert with a fetch() call to your API.
+       ---------------------------------------------------------- */
+    function handleSubmit(event) {
+      event.preventDefault(); // prevent default page refresh
+
+      // Get form values
+      const name    = document.getElementById('name').value;
+      const email   = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+
+      // TODO: Replace this alert with your real form submission logic
+      alert(`Thanks ${name}! Message received. I'll get back to you at ${email} soon.`);
+
+      // Reset the form after submission
+      event.target.reset();
+    }
+
+  </script>
+
+</body>
+</html>

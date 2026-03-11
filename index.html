@@ -29,16 +29,14 @@
        ============================================================ */
     :root {
       /* --- Colors --- */
-      --bg:          #0a0a0a;   /* main dark background — almost black */
-      --bg-2:        #111111;   /* slightly lighter dark, used for cards */
-      --bg-3:        #1a1a1a;   /* hover states, bordered areas */
-      --text:        #f0f0f0;   /* primary light text */
-      --text-muted:  #555555;   /* dimmed text (dates, labels) */
-      --text-dim:    #888888;   /* mid-brightness text */
-      --accent:      #ffffff;   /* bright white accent (active states) */
-      --border:      #222222;   /* subtle border color */
-      --green:       #4ade80;   /* the little "available" green dot */
-
+      --bg:          #C2CFB2;   
+      --bg-2:        #9BB082;   /* slightly lighter dark, used for cards */
+      --bg-3:        #003B36;   /* hover states, bordered areas */
+      --text:        #1a2e1a;   /* dark green instead of near-white */
+      --text-muted:  #4a5e4a;   /* muted dark green instead of dark grey */
+      --text-dim:    #5a7a5a;   /* mid green instead of light grey */
+      --border:      #a0b890;   /* soft green border instead of near-black */
+      
       /* --- Sidebar width — change this one number to resize the nav --- */
       --sidebar-w:   220px;
 
@@ -244,7 +242,6 @@
        HERO SECTION  (#hero)
        ------------------------------------------------------------
        Big name, role subtitle, short bio. This mirrors the
-       "Hello, I am / Harold Keith" layout from the reference.
        ============================================================ */
     #hero {}
 
@@ -459,6 +456,94 @@
       color: var(--text);
       border-color: var(--text-muted);
     }
+
+    /* ============================================================
+   EXPERIENCE SECTION
+   ============================================================ */
+.experience-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.exp-card {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 28px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.exp-card:hover {
+  border-color: var(--text-muted);
+  transform: translateX(6px);
+}
+
+.exp-logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+  
+}
+
+.exp-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.exp-info {
+  flex: 1;
+}
+
+.exp-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.exp-company {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.exp-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.exp-date {
+  font-size: 12px;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.exp-location {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 768px) {
+  .exp-card { flex-wrap: wrap; gap: 16px; }
+  .exp-meta { align-items: flex-start; }
+}
 
 
     /* ============================================================
@@ -856,12 +941,11 @@
        Fixed to the left edge. Contains:
          - Your name (acts as a "logo" / home link)
          - Nav links with _underscore prefix style
-         - Availability status + book-a-call CTA at bottom
+    
        ============================================================ -->
   <aside class="sidebar">
 
     <!-- Your name at the top — clicking goes back to hero -->
-    <!-- TO CUSTOMIZE: Change "Jane Doe" to your actual name -->
     <a href="#hero" class="sidebar-name">T'Shara Haynes</a>
 
     <!-- Navigation links
@@ -871,27 +955,10 @@
     <nav class="sidebar-nav">
       <a href="#hero"     class="active"><span class="prefix">_</span>hello</a>
       <a href="#about"   ><span class="prefix">_</span>about</a>
-      <a href = "#experience"><span class="prefix"></span>experience</a>
+      <a href = "#experience"><span class="prefix">_</span>experience</a>
       <a href="#projects"><span class="prefix">_</span>projects</a>
       <a href="#contact" ><span class="prefix">_</span>contact_me</a>
     </nav>
-
-    <!-- Bottom: availability + CTA -->
-    <div class="sidebar-bottom">
-
-      <!-- Green dot + "Available" — TO CUSTOMIZE: change the text or
-           remove this whole block if you're not available for work -->
-      <div class="availability">
-        <span class="dot"></span>
-        Available for work
-      </div>
-
-      <!-- Book a call button — TO CUSTOMIZE: replace the href with
-           your real Calendly / booking link -->
-      <a href="https://calendly.com" target="_blank" class="sidebar-cta">
-        <span class="icon">📅</span>
-        book_a_call
-      </a>
 
     </div>
   </aside>
@@ -925,8 +992,7 @@
       </div>
 
       <!-- Short bio paragraph
-           TO CUSTOMIZE: Write 1-2 sentences describing what you do
-           and what makes you unique. Keep it concise. -->
+           . -->
       <p class="hero-bio fade-in">
 I'm a software engineer who enjoys building thoughtful digital experiences backed by strong technical systems.
 I’m particularly interested in machine learning research, game development, payment technologies, 
@@ -938,12 +1004,11 @@ and designing tools to further the Caribbean's technological and sustainable dev
         <!-- Primary: links to your projects section -->
         <a href="#projects" class="btn-primary">View Projects →</a>
         <!-- Secondary: opens your resume PDF
-             TO CUSTOMIZE: Replace # with the path to your resume file -->
+             -->
         <a href="T'Shara Haynes_CV_Updated.pdf" class="btn-secondary" download>Download Résumé</a>
       </div>
 
-      <!-- Stats row — TO CUSTOMIZE: Update the numbers to match your
-           real experience. Remove a stat item if you don't need it. -->
+      <!-- Stats row — --->
       <div class="hero-stats">
         <div class="stat-item fade-in">
           <div class="stat-num">3</div>
@@ -1011,6 +1076,63 @@ and designing tools to further the Caribbean's technological and sustainable dev
       </div>
     </section>
 
+    <!-- ==========================================================
+     EXPERIENCE SECTION
+     ========================================================== -->
+<section id="experience">
+
+  <div class="section-header fade-in">
+    <p class="section-label">_experience</p>
+    <h2 class="section-title">My Experience</h2>
+  </div>
+
+  <div class="experience-list">
+
+    <div class="exp-card fade-in">
+      <div class="exp-logo">
+        <img src="cbb_logo.webp" alt="Central Bank of Barbados"/>
+</div>
+      <div class="exp-info">
+        <div class="exp-title">Governor's Office Intern</div>
+        <div class="exp-company">Central Bank of Barbados</div>
+      </div>
+      <div class="exp-meta">
+        <span class="exp-date">Jun 2025 – Aug 2025</span>
+        <span class="exp-location">Bridgetown, Barbados</span>
+      </div>
+    </div>
+
+    <div class="exp-card fade-in">
+      <div class="exp-logo">
+        <img src="headstarter.png" alt="Central Bank of Barbados"/>
+</div>
+      <div class="exp-info">
+        <div class="exp-title">Machine Learning Fellow</div>
+        <div class="exp-company">Headstarter AI</div>
+      </div>
+      <div class="exp-meta">
+        <span class="exp-date">Jul 2024 – Sep 2024</span>
+        <span class="exp-location">Remote</span>
+      </div>
+    </div>
+
+    <div class="exp-card fade-in">
+      <div class="exp-logo">
+        <img src="pellucid it_logo.webp" alt="Central Bank of Barbados"/>
+</div>
+      <div class="exp-info">
+        <div class="exp-title">Project Assistant</div>
+        <div class="exp-company">Pellucid IT Inc.</div>
+      </div>
+      <div class="exp-meta">
+        <span class="exp-date">Oct 2024 – May 2025</span>
+        <span class="exp-location">Remote</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 
     <!-- ==========================================================
          PROJECTS SECTION
@@ -1018,11 +1140,6 @@ and designing tools to further the Caribbean's technological and sustainable dev
          Vertical list of projects — matches the reference site's
          project list style with name, date, and thumbnail.
 
-         TO CUSTOMIZE: Copy/paste a .project-card block to add more
-         projects. Update the title, date, tags, and image src.
-
-         For images: either use a real <img> tag pointing to your
-         screenshot, or leave the div as-is for a placeholder.
          ========================================================== -->
     <section id="projects">
 
@@ -1132,34 +1249,34 @@ and designing tools to further the Caribbean's technological and sustainable dev
           <div class="contact-links">
 
             <!-- Email link -->
-            <a href="mailto:hello@janedoe.com" class="contact-link">
+            <a href="mailto:haynestshara0@gmail.com" class="contact-link">
               <span class="link-label">
                 <!-- Underscore prefix style for consistency with nav -->
-                <span style="color: var(--text-muted)">_</span>haynestshara0@gmail.com
+                <span style="color: var(--text-muted)">_</span>Email
               </span>
               <span class="link-arrow">↗</span>
             </a>
 
             <!-- LinkedIn -->
-            <a href="#" target="_blank" class="contact-link">
+            <a href="https://www.linkedin.com/in/tshara-haynes/" target="_blank" class="contact-link">
               <span class="link-label">
-                <span style="color: var(--text-muted)">_</span>linkedin.com/in/tshara-haynes/
+                <span style="color: var(--text-muted)">_</span>LinkedIn
               </span>
               <span class="link-arrow">↗</span>
             </a>
 
             <!-- GitHub -->
-            <a href="#" target="_blank" class="contact-link">
+            <a href="https://github.com/sharhaynes" target="_blank" class="contact-link">
               <span class="link-label">
-                <span style="color: var(--text-muted)">_</span>github.com/sharhaynes
+                <span style="color: var(--text-muted)">_</span>GitHub
               </span>
               <span class="link-arrow">↗</span>
             </a>
 
             <!-- Twitter / X -->
-            <a href="#" target="_blank" class="contact-link">
+            <a href="https://www.instagram.com/shar_ja._/" target="_blank" class="contact-link">
               <span class="link-label">
-                <span style="color: var(--text-muted)">_</span>@shar_ja._
+                <span style="color: var(--text-muted)">_</span>Medium
               </span>
               <span class="link-arrow">↗</span>
             </a>
@@ -1168,9 +1285,7 @@ and designing tools to further the Caribbean's technological and sustainable dev
         </div>
 
         <!-- Right column: contact form
-             TO CUSTOMIZE: Hook this up to a form service like
-             Formspree (formspree.io), Netlify Forms, or EmailJS.
-             Change the action attribute or add your JS handler. -->
+
         <form class="contact-form fade-in" onsubmit="handleSubmit(event)">
 
           <!-- Name field -->
@@ -1223,7 +1338,6 @@ and designing tools to further the Caribbean's technological and sustainable dev
          FOOTER
          ========================================================== -->
     <footer class="footer">
-      <!-- TO CUSTOMIZE: Update your name and year -->
       <span>© 2026 T'Shara Haynes. All rights reserved.</span>
       <a href="#hero">Back to top :D</a>
     </footer>
@@ -1238,7 +1352,7 @@ and designing tools to further the Caribbean's technological and sustainable dev
        Three things happen here:
          1. Scroll-triggered fade-in animations via IntersectionObserver
          2. Active nav link highlighting based on scroll position
-         3. Form submit handler (placeholder — wire up to your backend)
+         3. Form submit handler (placeholder — wire up to backend eventually)
        ============================================================ -->
   <script>
 
@@ -1298,10 +1412,7 @@ and designing tools to further the Caribbean's technological and sustainable dev
        3. FORM SUBMIT HANDLER
        ----------------------------------------------------------
        Currently just shows an alert. To actually send the message:
-         Option A (easy): Use Formspree — add action="https://formspree.io/f/YOUR_ID"
-                          to the <form> tag and remove this JS handler.
-         Option B: Replace the alert with a fetch() call to your API.
-       ---------------------------------------------------------- */
+*/
     function handleSubmit(event) {
       event.preventDefault(); // prevent default page refresh
 

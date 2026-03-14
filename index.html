@@ -9,12 +9,9 @@
   ============================================================
   FONTS
   ------------------------------------------------------------
-  We import two fonts from Google Fonts:
     1. "Space Grotesk"  — used for nav labels, tags, mono-style text
     2. "Syne"           — used for the big display headings (like the
                           giant "Harold Keith" on the reference site)
-  To swap fonts: change the URL below AND update the CSS variables
-  in the :root block further down.
   ============================================================
   -->
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
@@ -29,14 +26,14 @@
        ============================================================ */
     :root {
       /* --- Colors --- */
-      --bg:          #C2CFB2;   /* main dark background — almost black */
-      --bg-2:        #9BB082;   /* slightly lighter dark, used for cards */
-      --bg-3:        #003B36;   /* hover states, bordered areas */
-      --text:        #1a2e1a;   /* dark green instead of near-white */
-      --text-muted:  #4a5e4a;   /* muted dark green instead of dark grey */
-      --text-dim:    #5a7a5a;   /* mid green instead of light grey */
-      --border:      #a0b890;   /* soft green border instead of near-black */
-      --green:       #003B36;   /* use your dark teal for the available dot */
+      --bg:          #C2CFB2;   
+      --bg-2:        #9BB082;   
+      --bg-3:        #003B36;   
+      --text:        #1a2e1a;   
+      --text-muted:  #4a5e4a;   
+      --text-dim:    #5a7a5a;   
+      --border:      #a0b890;   
+      --green:       #003B36;  
 
       /* --- Sidebar width — change this one number to resize the nav --- */
       --sidebar-w:   220px;
@@ -58,7 +55,7 @@
     }
 
     html {
-      scroll-behavior: smooth; /* smooth scrolling when clicking nav links */
+      scroll-behavior: smooth; 
     }
 
     body {
@@ -88,9 +85,7 @@
        SIDEBAR (LEFT VERTICAL NAVIGATION)
        ------------------------------------------------------------
        This is the fixed vertical panel on the left side that stays
-       in place while the right content scrolls. It mirrors the
-       devfolio reference exactly: name at top, nav links with
-       underscore prefix, social/cta links at bottom.
+       in place while the right content scrolls.
        ============================================================ */
     .sidebar {
       width: var(--sidebar-w);          /* fixed width from variable above */
@@ -213,8 +208,7 @@
     /* ============================================================
        MAIN CONTENT AREA
        ------------------------------------------------------------
-       Everything to the RIGHT of the sidebar. We push it over by
-       exactly the sidebar width so it doesn't overlap.
+       Everything to the RIGHT of the sidebar.
        ============================================================ */
     .main {
       margin-left: var(--sidebar-w);   /* offset = sidebar width */
@@ -225,9 +219,6 @@
 
     /* ============================================================
        SECTION BASE STYLES
-       ------------------------------------------------------------
-       All sections share this padding. Each section is full-viewport
-       height so you get a "page per section" feel.
        ============================================================ */
     section {
       min-height: 100vh;
@@ -242,8 +233,6 @@
     /* ============================================================
        HERO SECTION  (#hero)
        ------------------------------------------------------------
-       Big name, role subtitle, short bio. This mirrors the
-       "Hello, I am / Harold Keith" layout from the reference.
        ============================================================ */
     #hero {}
 
@@ -256,8 +245,6 @@
       margin-bottom: 16px;
     }
 
-    /* The BIG name — this is the headline everyone sees first.
-       Uses clamp() so it scales between mobile and desktop. */
     .hero-name {
       font-family: var(--font-display);
       font-size: clamp(52px, 8vw, 100px);
@@ -551,9 +538,7 @@
     /* ============================================================
        PROJECTS SECTION  (#projects)
        ------------------------------------------------------------
-       Vertical list of project cards — each card spans full width
-       and shows project name, date, and thumbnail (like the
-       scrolling ticker on the reference site, but as a clean list).
+       Vertical list of project cards — e
        ============================================================ */
     #projects {}
 
@@ -1184,33 +1169,31 @@ and designing tools to further the Caribbean's technological and sustainable dev
   </a>
 
   <!-- ── PROJECT 2 ── -->
-  <a href="https://github.com/sharhaynes/pwd-manager" class="project-card fade-in" target="_blank">
+  <a href="https://github.com/sharhaynes/ENSC-1000_Energy_Dashboard" class="project-card fade-in" target="_blank">
     <div class="project-left">
       <span class="project-num">02</span>
       <div>
-        <div class="project-title"><span class="prefix">_</span>password_manager</div>
+        <div class="project-title"><span class="prefix">_</span>sustainable energy dashboard</div>
         <div class="project-tags">
           <span class="project-tag">Python</span>
-          <span class="project-tag">Encryption</span>
-          <span class="project-tag">Security</span>
         </div>
       </div>
     </div>
     <div class="project-right">
-      <span class="project-date">2024</span>
+      <span class="project-date">2025</span>
       <div class="project-thumb">
-        <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=200&q=60" alt="Password Manager"/>
+        <img src="https://github.com/sharhaynes/ENSC-1000_Energy_Dashboard/raw/main/EnergyDashboardDemo.gif" alt="energy dashboard"/>
       </div>
       <span class="project-arrow">↗</span>
     </div>
   </a>
 
   <!-- ── PROJECT 3 ── -->
-  <a href="https://github.com/sharhaynes/portfolio" class="project-card fade-in" target="_blank">
+  <a href="https://github.com/sharhaynes/alien-invasion" class="project-card fade-in" target="_blank">
     <div class="project-left">
       <span class="project-num">03</span>
       <div>
-        <div class="project-title"><span class="prefix">_</span>portfolio</div>
+        <div class="project-title"><span class="prefix">_</span>alien invasion</div>
         <div class="project-tags">
           <span class="project-tag">HTML</span>
           <span class="project-tag">CSS</span>
@@ -1221,7 +1204,7 @@ and designing tools to further the Caribbean's technological and sustainable dev
     <div class="project-right">
       <span class="project-date">2025</span>
       <div class="project-thumb">
-        <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=200&q=60" alt="Portfolio"/>
+        <img src="https://github.com/sharhaynes/alien-invasion/raw/main/AlienInvasionGamePlay.gif" alt="Alien Invasion"/>
       </div>
       <span class="project-arrow">↗</span>
     </div>

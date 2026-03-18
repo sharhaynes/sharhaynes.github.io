@@ -1,10 +1,4 @@
 
-    /* ============================================================
-       CSS CUSTOM PROPERTIES (Variables)
-       ------------------------------------------------------------
-       These are your "design tokens" — change a value here and it
-       updates EVERYWHERE on the page that uses that variable.
-       ============================================================ */
     :root {
       /* --- Colors --- */
       --bg:          #C2CFB2;   
@@ -16,7 +10,7 @@
       --border:      #a0b890;   
       --green:       #003B36;  
 
-      /* --- Sidebar width — change this one number to resize the nav --- */
+      /* --- Sidebar width --- */
       --sidebar-w:   220px;
 
       /* --- Typography --- */
@@ -24,11 +18,6 @@
       --font-display:'Syne', sans-serif;
     }
 
-    /* ============================================================
-       RESET & BASE
-       ------------------------------------------------------------
-       Zero out browser defaults so we start from a clean slate.
-       ============================================================ */
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
@@ -55,7 +44,7 @@
     a  { text-decoration: none; color: inherit; }
 
     /* ============================================================
-       SCROLLBAR — custom dark scrollbar for the main content area
+       SCROLLBAR: custom dark scrollbar for the main content area
        ============================================================ */
     ::-webkit-scrollbar       { width: 4px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
@@ -63,10 +52,8 @@
 
 
     /* ============================================================
-       SIDEBAR (LEFT VERTICAL NAVIGATION)
+       SIDEBAR: (LEFT VERTICAL NAVIGATION)
        ------------------------------------------------------------
-       This is the fixed vertical panel on the left side that stays
-       in place while the right content scrolls.
        ============================================================ */
     .sidebar {
       width: var(--sidebar-w);          /* fixed width from variable above */
@@ -89,7 +76,7 @@
       font-size: 15px;
       color: var(--text);
       letter-spacing: 0.02em;
-      margin-bottom: 60px;             /* gap between name and nav links */
+      margin-bottom: 60px;             
       display: block;
     }
 
@@ -97,15 +84,15 @@
     .sidebar-nav {
       display: flex;
       flex-direction: column;
-      gap: 6px;                        /* small gap between each nav item */
-      flex: 1;                         /* pushes bottom section down */
+      gap: 6px;                       
+      flex: 1;                         
     }
 
-    /* --- Each individual nav link --- */
+    /* --- each individual nav link --- */
     .sidebar-nav a {
       font-size: 13px;
       font-weight: 500;
-      color: var(--text-muted);        /* dim by default */
+      color: var(--text-muted);      
       padding: 8px 12px;
       border-radius: 6px;
       transition: color 0.2s, background 0.2s;
@@ -114,7 +101,7 @@
       gap: 6px;
     }
 
-    /* Hover state: brightens the link */
+    /* hover state: brightens the link */
     .sidebar-nav a:hover {
       color: var(--text);
       background: var(--bg-3);
@@ -125,13 +112,12 @@
       color: var(--text);
     }
 
-    /* The underscore prefix (like "_hello") — styled as a subtle accent */
     .sidebar-nav a .prefix {
-      color: var(--text-muted);        /* stays dim even when parent is active */
+      color: var(--text-muted);        
       font-weight: 300;
     }
 
-    /* --- Bottom section of sidebar: availability + cta --- */
+    /* --- Bottom section of sidebar --- */
     .sidebar-bottom {
       display: flex;
       flex-direction: column;
@@ -140,7 +126,6 @@
       border-top: 1px solid var(--border);
     }
 
-    /* Small "available for work" status badge */
     .availability {
       display: flex;
       align-items: center;
@@ -150,13 +135,12 @@
       letter-spacing: 0.04em;
     }
 
-    /* The little green pulsing dot */
     .availability .dot {
       width: 7px;
       height: 7px;
       border-radius: 50%;
       background: var(--green);
-      /* CSS animation: pulse glow to draw attention */
+
       animation: pulse 2s infinite;
     }
 
@@ -165,14 +149,13 @@
       50%       { box-shadow: 0 0 0 6px rgba(74, 222, 128, 0); }
     }
 
-    /* "Book a call" button in sidebar */
     .sidebar-cta {
       display: flex;
       align-items: center;
       gap: 8px;
       font-size: 12px;
       font-weight: 600;
-      color: var(--bg);                /* dark text on light button */
+      color: var(--bg);                
       background: var(--text);
       padding: 10px 14px;
       border-radius: 8px;
@@ -182,7 +165,6 @@
 
     .sidebar-cta:hover { opacity: 0.85; }
 
-    /* Emoji calendar icon inside the CTA button */
     .sidebar-cta .icon { font-size: 14px; }
 
 
@@ -213,7 +195,6 @@
 
     /* ============================================================
        HERO SECTION  (#hero)
-       ------------------------------------------------------------
        ============================================================ */
     #hero {}
 
@@ -236,7 +217,7 @@
       margin-bottom: 32px;
     }
 
-    /* Role tag — sits below the name, looks like a code/terminal tag */
+    /* Role tag: sits below the name, think 007 dog tag */
     .hero-role {
       display: inline-flex;
       align-items: center;
@@ -247,23 +228,23 @@
       background: var(--bg-2);
       border: 1px solid var(--border);
       padding: 8px 14px;
-      border-radius: 100px;            /* pill shape */
+      border-radius: 100px;          
       margin-bottom: 32px;
       letter-spacing: 0.04em;
     }
 
-    /* The small colored circle before the role text */
+    /* small colored circle before the role text */
     .hero-role .role-dot {
       width: 6px; height: 6px;
       border-radius: 50%;
       background: var(--text-dim);
     }
 
-    /* Paragraph bio text below the role */
+    /* hero bio text below the role */
     .hero-bio {
       font-size: 15px;
       color: var(--text-muted);
-      max-width: 460px;                /* keep it readable — don't go full width */
+      max-width: 460px;               
       line-height: 1.7;
       margin-bottom: 48px;
     }
@@ -275,7 +256,7 @@
       flex-wrap: wrap;
     }
 
-    /* Primary button (filled) */
+    /* Primary button (filled) NB: by hero section*/
     .btn-primary {
       display: inline-flex;
       align-items: center;
@@ -291,7 +272,7 @@
     }
     .btn-primary:hover { opacity: 0.85; }
 
-    /* Secondary button (outlined) */
+    /* Secondary button (outlined) NB: by hero section */
     .btn-secondary {
       display: inline-flex;
       align-items: center;
@@ -311,7 +292,7 @@
       color: var(--text);
     }
 
-    /* ── Stats row under the buttons ── */
+    /* Stats row under the buttons. Have to look like I do things  */
     .hero-stats {
       display: flex;
       gap: 48px;
@@ -344,12 +325,10 @@
        ============================================================ */
     #about {}
 
-    /* Section header pattern — used in About, Projects, Contact */
     .section-header {
       margin-bottom: 56px;
     }
 
-    /* Small label above the section title (like "_about") */
     .section-label {
       font-size: 11px;
       font-weight: 500;
@@ -359,7 +338,6 @@
       margin-bottom: 16px;
     }
 
-    /* Section title — big but smaller than hero name */
     .section-title {
       font-family: var(--font-display);
       font-size: clamp(36px, 5vw, 56px);
@@ -377,7 +355,6 @@
       align-items: start;
     }
 
-    /* Left column: bio paragraphs */
     .about-text p {
       font-size: 15px;
       color: var(--text-muted);
@@ -518,8 +495,6 @@
 
     /* ============================================================
        PROJECTS SECTION  (#projects)
-       ------------------------------------------------------------
-       Vertical list of project cards — e
        ============================================================ */
     #projects {}
 
@@ -527,7 +502,6 @@
     .projects-list {
       display: flex;
       flex-direction: column;
-      /* No gap — borders between cards act as separators */
     }
 
     /* ── Individual project card ── */
@@ -548,7 +522,6 @@
       padding-left: 12px;
     }
 
-    /* Left side of card: number + title + tags */
     .project-left {
       display: flex;
       align-items: center;
@@ -556,7 +529,6 @@
       flex: 1;
     }
 
-    /* Project number e.g. "01", "02" */
     .project-num {
       font-size: 11px;
       color: var(--text-muted);
@@ -565,7 +537,6 @@
       min-width: 28px;
     }
 
-    /* Project title — gets bigger on hover */
     .project-title {
       font-family: var(--font-display);
       font-size: 20px;
@@ -574,13 +545,11 @@
       transition: color 0.2s;
     }
 
-    /* The underscore prefix on project names */
     .project-title .prefix {
       color: var(--text-muted);
       font-weight: 400;
     }
 
-    /* Small tag chips inside project card */
     .project-tags {
       display: flex;
       gap: 6px;
@@ -599,7 +568,6 @@
       letter-spacing: 0.04em;
     }
 
-    /* Right side of card: date + thumbnail */
     .project-right {
       display: flex;
       align-items: center;
@@ -607,7 +575,6 @@
       flex-shrink: 0;
     }
 
-    /* Date label e.g. "Oct 2023 – Jan 2024" */
     .project-date {
       font-size: 11px;
       color: var(--text-muted);
@@ -628,7 +595,7 @@
       flex-shrink: 0;
     }
 
-    /* Thumbnail image inside the box */
+    /* Thumbnail image inside the box. Put gifs or images of the project iself */
     .project-thumb img {
       width: 100%;
       height: 100%;
@@ -637,7 +604,6 @@
       transition: opacity 0.25s;
     }
 
-    /* On hover: thumbnail pops and brightens */
     .project-card:hover .project-thumb img {
       opacity: 1;
     }
@@ -646,7 +612,6 @@
       transform: scale(1.05);
     }
 
-    /* Arrow icon on the right that appears on hover */
     .project-arrow {
       font-size: 16px;
       color: var(--text-muted);
@@ -665,7 +630,7 @@
        CONTACT SECTION  (#contact)
        ============================================================ */
     #contact {
-      border-bottom: none;             /* last section — no border at bottom */
+      border-bottom: none;            
     }
 
     /* Two-column: left is big text CTA, right is form */
@@ -754,7 +719,6 @@
       text-transform: uppercase;
     }
 
-    /* Input & textarea shared styles */
     .form-input,
     .form-textarea {
       background: var(--bg-2);
@@ -782,7 +746,7 @@
     }
 
     .form-textarea {
-      resize: vertical;               /* allow vertical resizing only */
+      resize: vertical;
       min-height: 120px;
     }
 
@@ -829,14 +793,6 @@
 
     .footer a:hover { color: var(--text); }
 
-
-    /* ============================================================
-       SCROLL-TRIGGERED FADE-IN ANIMATION
-       ------------------------------------------------------------
-       Elements with class .fade-in start invisible and slide up.
-       JavaScript IntersectionObserver adds .visible when they
-       enter the viewport, triggering the CSS transition.
-       ============================================================ */
     .fade-in {
       opacity: 0;
       transform: translateY(24px);

@@ -1,0 +1,900 @@
+
+    /* ============================================================
+       CSS CUSTOM PROPERTIES (Variables)
+       ------------------------------------------------------------
+       These are your "design tokens" — change a value here and it
+       updates EVERYWHERE on the page that uses that variable.
+       ============================================================ */
+    :root {
+      /* --- Colors --- */
+      --bg:          #C2CFB2;   
+      --bg-2:        #9BB082;   
+      --bg-3:        #003B36;   
+      --text:        #1a2e1a;   
+      --text-muted:  #4a5e4a;   
+      --text-dim:    #5a7a5a;   
+      --border:      #a0b890;   
+      --green:       #003B36;  
+
+      /* --- Sidebar width — change this one number to resize the nav --- */
+      --sidebar-w:   220px;
+
+      /* --- Typography --- */
+      --font-body:   'Space Grotesk', sans-serif;
+      --font-display:'Syne', sans-serif;
+    }
+
+    /* ============================================================
+       RESET & BASE
+       ------------------------------------------------------------
+       Zero out browser defaults so we start from a clean slate.
+       ============================================================ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth; 
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+      /* Layout: sidebar on left, content on right, side by side */
+      display: flex;
+    }
+
+    /* Remove default list styling */
+    ul { list-style: none; }
+    a  { text-decoration: none; color: inherit; }
+
+    /* ============================================================
+       SCROLLBAR — custom dark scrollbar for the main content area
+       ============================================================ */
+    ::-webkit-scrollbar       { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+
+    /* ============================================================
+       SIDEBAR (LEFT VERTICAL NAVIGATION)
+       ------------------------------------------------------------
+       This is the fixed vertical panel on the left side that stays
+       in place while the right content scrolls.
+       ============================================================ */
+    .sidebar {
+      width: var(--sidebar-w);          /* fixed width from variable above */
+      min-height: 100vh;
+      position: fixed;                  /* sticks to the left, doesn't scroll */
+      top: 0;
+      left: 0;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;           /* stack children vertically */
+      padding: 40px 28px;
+      z-index: 100;                     /* stay above all other content */
+      background: var(--bg);            /* same as page bg so it blends */
+    }
+
+    /* --- Name / Logo at top of sidebar --- */
+    .sidebar-name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text);
+      letter-spacing: 0.02em;
+      margin-bottom: 60px;             /* gap between name and nav links */
+      display: block;
+    }
+
+    /* --- Navigation links list --- */
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;                        /* small gap between each nav item */
+      flex: 1;                         /* pushes bottom section down */
+    }
+
+    /* --- Each individual nav link --- */
+    .sidebar-nav a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);        /* dim by default */
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Hover state: brightens the link */
+    .sidebar-nav a:hover {
+      color: var(--text);
+      background: var(--bg-3);
+    }
+
+    /* Active/current page link: full white */
+    .sidebar-nav a.active {
+      color: var(--text);
+    }
+
+    /* The underscore prefix (like "_hello") — styled as a subtle accent */
+    .sidebar-nav a .prefix {
+      color: var(--text-muted);        /* stays dim even when parent is active */
+      font-weight: 300;
+    }
+
+    /* --- Bottom section of sidebar: availability + cta --- */
+    .sidebar-bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Small "available for work" status badge */
+    .availability {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* The little green pulsing dot */
+    .availability .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      /* CSS animation: pulse glow to draw attention */
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4); }
+      50%       { box-shadow: 0 0 0 6px rgba(74, 222, 128, 0); }
+    }
+
+    /* "Book a call" button in sidebar */
+    .sidebar-cta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--bg);                /* dark text on light button */
+      background: var(--text);
+      padding: 10px 14px;
+      border-radius: 8px;
+      transition: opacity 0.2s;
+      letter-spacing: 0.02em;
+    }
+
+    .sidebar-cta:hover { opacity: 0.85; }
+
+    /* Emoji calendar icon inside the CTA button */
+    .sidebar-cta .icon { font-size: 14px; }
+
+
+    /* ============================================================
+       MAIN CONTENT AREA
+       ------------------------------------------------------------
+       Everything to the RIGHT of the sidebar.
+       ============================================================ */
+    .main {
+      margin-left: var(--sidebar-w);   /* offset = sidebar width */
+      flex: 1;                         /* take up all remaining space */
+      overflow-y: auto;                /* scroll independently from sidebar */
+    }
+
+
+    /* ============================================================
+       SECTION BASE STYLES
+       ============================================================ */
+    section {
+      min-height: 100vh;
+      padding: 80px 70px;
+      border-bottom: 1px solid var(--border);  /* separator between sections */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+
+    /* ============================================================
+       HERO SECTION  (#hero)
+       ------------------------------------------------------------
+       ============================================================ */
+    #hero {}
+
+    /* Small "Hello, I am" label above the name */
+    .hero-greeting {
+      font-size: 14px;
+      color: var(--text-muted);
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+    }
+
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 8vw, 100px);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 32px;
+    }
+
+    /* Role tag — sits below the name, looks like a code/terminal tag */
+    .hero-role {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-dim);
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 100px;            /* pill shape */
+      margin-bottom: 32px;
+      letter-spacing: 0.04em;
+    }
+
+    /* The small colored circle before the role text */
+    .hero-role .role-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--text-dim);
+    }
+
+    /* Paragraph bio text below the role */
+    .hero-bio {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 460px;                /* keep it readable — don't go full width */
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+
+    /* Row of CTA buttons */
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* Primary button (filled) */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--text);
+      color: var(--bg);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: 8px;
+      transition: opacity 0.2s;
+      letter-spacing: 0.02em;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+
+    /* Secondary button (outlined) */
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--text-dim);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      transition: border-color 0.2s, color 0.2s;
+      letter-spacing: 0.02em;
+    }
+    .btn-secondary:hover {
+      border-color: var(--text-dim);
+      color: var(--text);
+    }
+
+    /* ── Stats row under the buttons ── */
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      margin-top: 64px;
+      padding-top: 48px;
+      border-top: 1px solid var(--border);
+    }
+
+    .stat-item {}
+
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+
+    /* ============================================================
+       ABOUT SECTION  (#about)
+       ============================================================ */
+    #about {}
+
+    /* Section header pattern — used in About, Projects, Contact */
+    .section-header {
+      margin-bottom: 56px;
+    }
+
+    /* Small label above the section title (like "_about") */
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    /* Section title — big but smaller than hero name */
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      color: var(--text);
+    }
+
+    /* Two-column layout for About: text left, skills right */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    /* Left column: bio paragraphs */
+    .about-text p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    /* Highlighted text inside bio */
+    .about-text strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* Right column: skills */
+    .about-skills {}
+
+    .skills-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    /* Grid of skill tags */
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* Individual skill pill */
+    .skill-tag {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-dim);
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 100px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .skill-tag:hover {
+      color: var(--text);
+      border-color: var(--text-muted);
+    }
+
+    /* ============================================================
+   EXPERIENCE SECTION
+   ============================================================ */
+.experience-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.exp-card {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 28px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.exp-card:hover {
+  border-color: var(--text-muted);
+  transform: translateX(6px);
+}
+
+.exp-logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+  
+}
+
+.exp-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.exp-info {
+  flex: 1;
+}
+
+.exp-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.exp-company {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.exp-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.exp-date {
+  font-size: 12px;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.exp-location {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 768px) {
+  .exp-card { flex-wrap: wrap; gap: 16px; }
+  .exp-meta { align-items: flex-start; }
+}
+
+
+    /* ============================================================
+       PROJECTS SECTION  (#projects)
+       ------------------------------------------------------------
+       Vertical list of project cards — e
+       ============================================================ */
+    #projects {}
+
+    /* Stacked list of project cards */
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      /* No gap — borders between cards act as separators */
+    }
+
+    /* ── Individual project card ── */
+    .project-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: padding-left 0.25s ease;
+      position: relative;
+      gap: 24px;
+    }
+
+    /* On hover: indent the card (subtle slide effect) */
+    .project-card:hover {
+      padding-left: 12px;
+    }
+
+    /* Left side of card: number + title + tags */
+    .project-left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex: 1;
+    }
+
+    /* Project number e.g. "01", "02" */
+    .project-num {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      min-width: 28px;
+    }
+
+    /* Project title — gets bigger on hover */
+    .project-title {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      transition: color 0.2s;
+    }
+
+    /* The underscore prefix on project names */
+    .project-title .prefix {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    /* Small tag chips inside project card */
+    .project-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .project-tag {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      padding: 3px 10px;
+      border-radius: 100px;
+      letter-spacing: 0.04em;
+    }
+
+    /* Right side of card: date + thumbnail */
+    .project-right {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-shrink: 0;
+    }
+
+    /* Date label e.g. "Oct 2023 – Jan 2024" */
+    .project-date {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    /* Project thumbnail image box */
+    .project-thumb {
+      width: 80px;
+      height: 52px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: var(--bg-3);         /* fallback color if no image */
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: transform 0.25s;
+      flex-shrink: 0;
+    }
+
+    /* Thumbnail image inside the box */
+    .project-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.7;
+      transition: opacity 0.25s;
+    }
+
+    /* On hover: thumbnail pops and brightens */
+    .project-card:hover .project-thumb img {
+      opacity: 1;
+    }
+
+    .project-card:hover .project-thumb {
+      transform: scale(1.05);
+    }
+
+    /* Arrow icon on the right that appears on hover */
+    .project-arrow {
+      font-size: 16px;
+      color: var(--text-muted);
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: opacity 0.25s, transform 0.25s;
+    }
+
+    .project-card:hover .project-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+
+    /* ============================================================
+       CONTACT SECTION  (#contact)
+       ============================================================ */
+    #contact {
+      border-bottom: none;             /* last section — no border at bottom */
+    }
+
+    /* Two-column: left is big text CTA, right is form */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .contact-headline {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 4.5vw, 52px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .contact-sub {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 36px;
+      max-width: 340px;
+    }
+
+    /* Social / contact links list */
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+      transition: color 0.2s, padding-left 0.2s;
+    }
+
+    .contact-link:hover {
+      color: var(--text);
+      padding-left: 8px;
+    }
+
+    .contact-link .link-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Arrow on contact links */
+    .contact-link .link-arrow {
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .contact-link:hover .link-arrow { opacity: 1; }
+
+    /* ── Contact Form ── */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* Form label */
+    .form-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Input & textarea shared styles */
+    .form-input,
+    .form-textarea {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    /* Focus glow effect on inputs */
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--text-muted);
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: var(--text-muted);
+      opacity: 0.5;
+    }
+
+    .form-textarea {
+      resize: vertical;               /* allow vertical resizing only */
+      min-height: 120px;
+    }
+
+    /* Form submit button */
+    .form-submit {
+      align-self: flex-start;
+      background: var(--text);
+      color: var(--bg);
+      border: none;
+      border-radius: 8px;
+      padding: 12px 28px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-submit:hover { opacity: 0.85; }
+
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer {
+      padding: 24px 70px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    .footer a {
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+
+    .footer a:hover { color: var(--text); }
+
+
+    /* ============================================================
+       SCROLL-TRIGGERED FADE-IN ANIMATION
+       ------------------------------------------------------------
+       Elements with class .fade-in start invisible and slide up.
+       JavaScript IntersectionObserver adds .visible when they
+       enter the viewport, triggering the CSS transition.
+       ============================================================ */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Staggered delays — children animate one after another */
+    .fade-in:nth-child(2) { transition-delay: 0.08s; }
+    .fade-in:nth-child(3) { transition-delay: 0.16s; }
+    .fade-in:nth-child(4) { transition-delay: 0.24s; }
+    .fade-in:nth-child(5) { transition-delay: 0.32s; }
+
+
+    /* ============================================================
+       RESPONSIVE — MOBILE  (max-width: 768px)
+       ------------------------------------------------------------
+       On small screens: sidebar becomes a top bar, columns collapse
+       to single column.
+       ============================================================ */
+    @media (max-width: 768px) {
+      body { flex-direction: column; }
+
+      /* Sidebar becomes a horizontal top bar */
+      .sidebar {
+        position: relative;
+        width: 100%;
+        min-height: auto;
+        flex-direction: row;
+        align-items: center;
+        padding: 16px 20px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .sidebar-name    { margin-bottom: 0; }
+      .sidebar-nav     { flex-direction: row; flex: unset; gap: 4px; }
+      .sidebar-bottom  { display: none; }       /* hide cta on mobile */
+
+      /* Main content: no left margin */
+      .main { margin-left: 0; }
+
+      /* Sections: less padding on mobile */
+      section { padding: 48px 24px; }
+
+      /* Stack grids to single column */
+      .about-grid,
+      .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+
+      /* Footer */
+      .footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px; }
+
+      /* Project card: wrap on mobile */
+      .project-card   { flex-wrap: wrap; }
+      .project-right  { width: 100%; justify-content: space-between; }
+    }
+

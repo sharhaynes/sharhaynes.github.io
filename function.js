@@ -42,17 +42,28 @@
     /* ----------------------------------------------------------
        FORM SUBMIT HANDLER
        ----------------------------------------------------------
-       Currently just shows an alert. */
-    function handleSubmit(event) {
-      event.preventDefault(); 
+  */
+   function handleSubmit(event) {
+  event.preventDefault();
 
-      const name    = document.getElementById('name').value;
-      const email   = document.getElementById('email').value;
-      const message = document.getElementById('message').value;
+  const form = event.target;
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
 
-      // TODO: Replace this alert with actual form... eventually
+  fetch('contact.php', {
+    method: 'POST',
+    body: new FormData(form)
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === 'success') {
       alert(`Thanks ${name}! Message received. I'll get back to you at ${email} soon.`);
-
-      // Reset the form after submission
-      event.target.reset();
+      form.reset();
+    } else {
+      alert(data.message || "Something went wrong. Please try emailing me directly.");
     }
+  })
+  .catch(() => {
+    alert("Something went wrong. Please try emailing me directly.");
+  });
+}

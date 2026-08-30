@@ -43,27 +43,27 @@
        FORM SUBMIT HANDLER
        ----------------------------------------------------------
   */
-   function handleSubmit(event) {
+ function handleSubmit(event) {
   event.preventDefault();
 
   const form = event.target;
   const name = document.getElementById('name').value;
   const email = document.getElementById('email').value;
 
-  fetch('contact.php', {
+  fetch(form.action, {
     method: 'POST',
-    body: new FormData(form)
+    body: new FormData(form),
+    headers: { 'Accept': 'application/json' }
   })
-  .then(response => response.json())
-  .then(data => {
-    if (data.status === 'success') {
+  .then(response => {
+    if (response.ok) {
       alert(`Thanks ${name}! Message received. I'll get back to you at ${email} soon.`);
       form.reset();
     } else {
-      alert(data.message || "Something went wrong. Please try emailing me directly.");
+      alert("Oops! Something went wrong. Please try emailing me directly.");
     }
   })
   .catch(() => {
-    alert("Something went wrong. Please try emailing me directly.");
+    alert("Oops! Something went wrong. Please try emailing me directly.");
   });
 }
